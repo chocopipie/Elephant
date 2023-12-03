@@ -1,28 +1,71 @@
 <template>
-  <ion-page>
-    <ion-tabs>
+  <ion-app>
+    <ion-menu contentId="main-content">
+      <ion-header>
+        <ion-toolbar color="tertiary">
+          <ion-title>Menu</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <ion-item href="/tasks">
+          <ion-icon aria-hidden="true" :icon="options" />
+          <ion-label>Tasks / Chores</ion-label>
+        </ion-item>
+        
+        <ion-item href="/events">
+          <ion-icon aria-hidden="true" :icon="alarmOutline" />
+          <ion-label>Events</ion-label>
+        </ion-item>
+
+        <ion-item href="/groceries">
+          <ion-icon aria-hidden="true" :icon="cartOutline" />
+          <ion-label>Groceries</ion-label>
+        </ion-item>
+
+        <ion-item href="/utilities">
+          <ion-icon aria-hidden="true" :icon="constructOutline" />
+          <ion-label>Utilities</ion-label>
+        </ion-item>
+
+        <ion-item href="/expenses">
+          <ion-icon aria-hidden="true" :icon="cashOutline" />
+          <ion-label>Expenses</ion-label>
+        </ion-item>
+      </ion-content>
+    </ion-menu>
+    <div class="ion-page" id="main-content">
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+          </ion-buttons>
+          <ion-title></ion-title>
+        </ion-toolbar>
+      </ion-header>
       <ion-router-outlet></ion-router-outlet>
-      <ion-tab-bar slot="bottom">
-        <ion-tab-button tab="tab1" href="/tabs/tab1">
-          <ion-icon aria-hidden="true" :icon="triangle" />
-          <ion-label>Tab 1</ion-label>
-        </ion-tab-button>
-
-        <ion-tab-button tab="tab2" href="/tabs/tab2">
-          <ion-icon aria-hidden="true" :icon="ellipse" />
-          <ion-label>Tab 2</ion-label>
-        </ion-tab-button>
-
-        <ion-tab-button tab="tab3" href="/tabs/tab3">
-          <ion-icon aria-hidden="true" :icon="square" />
-          <ion-label>Tab 3</ion-label>
-        </ion-tab-button>
-      </ion-tab-bar>
-    </ion-tabs>
-  </ion-page>
+    </div>
+  </ion-app>
 </template>
 
 <script setup lang="ts">
 import { IonTabBar, IonTabButton, IonTabs, IonLabel, IonIcon, IonPage, IonRouterOutlet } from '@ionic/vue';
-import { ellipse, square, triangle } from 'ionicons/icons';
+import { options, alarmOutline, cartOutline, cashOutline, constructOutline } from 'ionicons/icons';
+
 </script>
+
+<style>
+
+ion-header {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adjust the shadow as needed */
+}
+
+ion-menu::part(backdrop) {
+  background-color: rgba(136, 115, 142, 0.816);
+}
+
+ion-menu::part(container) {
+  border-radius: 0 20px 20px 0;
+
+  box-shadow: 4px 0px 16px rgba(154, 113, 154, 0.18);
+}
+</style>
