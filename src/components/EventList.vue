@@ -1,59 +1,88 @@
 <template>
+    <div class="heading">
+        <strong class="item1">Upcoming Event</strong>
+        <ion-button class="item3" fill="clear" @click="showAddItemModal">
+            <ion-icon slot="icon-only" :icon="addOutline"></ion-icon>
+        </ion-button>
+        <AddTask v-if="isAddItemModalOpen" :add-type="'events'" @add-item="handleAddItem" />
+    </div>
     <ion-list>
-        <ion-card :class="{ 'completed-card': item.completed }" v-for="item in items" :key="item">
-            <ion-card-content>
-                <ion-checkbox :checked="item.completed" label-placement="end" @click="toggleCompletion(item)">{{ item.title }}</ion-checkbox>
-                <div class="add">{{ item.add }}</div>
-            </ion-card-content>
+        <ion-card v-for="item in items" :key="item">
+            <ion-accordion-group>
+                <ion-accordion value="first">
+                    <ion-item slot="header">
+                        <div class="item-header">
+                            <ion-label class="title">{{ item.title }}</ion-label>
+                            <ion-label class="reg">{{ item.add }}</ion-label>
+                        </div>
+                    </ion-item>
+                    <div class="ion-padding" slot="content">
+                        <div class="details"><ion-label class="subtitle">When</ion-label></div>
+                        <div class="details"><ion-label>{{ item.when }}</ion-label></div>
+                        <div class="details"><ion-label class="subtitle">Who</ion-label></div>
+                        <div class="details"><ion-label>{{ item.who }}</ion-label></div>
+                        <div class="details"><ion-label class="subtitle">Description</ion-label></div>
+                        <div class="details"><ion-label>{{ item.description }}</ion-label></div>             
+                    </div>
+                </ion-accordion>
+            </ion-accordion-group>
         </ion-card>
     </ion-list>
   </template>
   
   <script setup lang="ts">
     import { ref } from 'vue';
+    import { addOutline } from 'ionicons/icons';
+    import AddTask from './AddTask.vue';
 
     interface Item {
         title: string;
         add: string;
-        completed: boolean;
+        when: string;
+        who: string;
+        description: string;
     }
 
     const items = ref<Item[]>([
-        { title: 'Task 1', add: 'By 11/1/23', completed: false },
-        { title: 'Task 2', add: 'By 11/2/23', completed: false },
+        { title: 'Party', add: '11/6/23', when: '11/6/23 @ 7 pm', who: 'name1, name2, name3, name4', description:'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt '},
+        { title: 'Group Work Session', add: '11/23/23', when: '11/23/23 @ 9 pm', who: 'name1, name2, name3, name4', description:'Enim nec dui nunc mattis enim ut tellus elementum. '},
     ]);
 
-    const toggleCompletion = (item: Item) => {
-        item.completed = !item.completed;
+    const isAddItemModalOpen = ref(false);
+
+    const showAddItemModal = () => {
+        isAddItemModalOpen.value = true;
     };
+
+    const handleAddItem = (newItem: { title: string, date: string, time: string, who: string, description: string }) => {
+        const formattedDateTime = `${newItem.date} @ ${newItem.time}`;
+        items.value.push({ title: newItem.title, add: newItem.date, when: formattedDateTime, who: newItem.who, description: newItem.description }); // asignees: [newItem.asignee] => not working
+        isAddItemModalOpen.value = false;
+    };
+    
   </script>
   
   <style scoped>
-    ion-list {
-        font-weight: 600;
-    }
 
-    ion-checkbox {
-        --size: 32px;
-        --checkbox-background-checked: black;
-    }
-
-    ion-checkbox::part(container) {
-        border-radius: 6px;
-        border: 2.5px solid black;
-    }
-
-    ion-card {
+    .cardHeader {
         background-color: #EAEAEA;
-        color: gray
     }
 
-    .add {
-        color: gray;
+    .title,
+    .subtitle {
+        margin-top: 10px;
+        font-weight: bold;
     }
-    .completed-card {
-        color: black;
-        --checkbox-background-checked: black;
+
+    .reg {
+        font-size: smaller;
+        }
+    .details {
+        margin: 4px;
+    }
+
+    .reg {
+        margin: 8px;
     }
 
   </style>

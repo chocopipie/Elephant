@@ -7,7 +7,7 @@
         <ion-button class="item3" fill="clear" @click="showAddItemModal">
             <ion-icon slot="icon-only" :icon="addOutline"></ion-icon>
         </ion-button>
-        <AddTask v-if="isAddItemModalOpen" @add-item="handleAddItem" />
+        <AddTask v-if="isAddItemModalOpen" :add-type="'tasks'" @add-item="handleAddItem" />
     </div>
     <ion-list>
         <ion-card :class="{ 'completed-card': item.completed }" v-for="item in getTask" :key="item">
